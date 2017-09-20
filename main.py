@@ -55,11 +55,17 @@ b_divider = 20
 # Multiplying by 3 since we have center, left and right images per row
 b_size = len(csv)  * 3 // b_divider
 
+train = csv[:5800]
+validation = csv[5801:]
+
 m = nvidia_model()
-gen_train = generate_images(csv, (160, 320, 3), st_angle_names, "Steering Angle", st_angle_calibrations,  batch_size=b_size)
+gen_train = generate_images(train, (160, 320, 3), st_angle_names, "Steering Angle", st_angle_calibrations,  batch_size=b_size)
+
+gen_val = generate_images(validation, (160, 320, 3), st_angle_names, "Steering Angle", st_angle_calibrations,  batch_size=(b_size * b_divider) // 5, data_aug_pct=0.0)
+x_val, y_val = next(gen_val)
 
 # Train the model
-m.fit_generator(gen_train, samples_per_epoch=b_size * b_divider, nb_epoch=2, verbose=1)
+m.fit_generator(gen_train, validation_data=(x_val, y_val), samples_per_epoch=b_size * b_divider, nb_epoch=5, verbose=1)
 
 m.save("nvidia_model.h5")
 
