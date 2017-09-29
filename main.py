@@ -67,7 +67,7 @@ x_val, y_val = next(gen_val)
 # Train the model
 m.fit_generator(gen_train, validation_data=(x_val, y_val), samples_per_epoch=b_size * b_divider, nb_epoch=5, verbose=1)
 
-m.save("nvidia_model.h5")
+m.save("udacity_nvidia_model.h5")
 
 print("Successfully saved model")
 

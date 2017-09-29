@@ -18,7 +18,7 @@ models_path = "./models"
 def read_img(img_full_path, img_dir="/IMG"):
     prefix_path = path + img_dir
     
-    img_path = "{0}/{1}".format(prefix_path, img_full_path.split("\\")[-1])    
+    img_path = "{0}/{1}".format(prefix_path, img_full_path.split("/")[-1])    
     img = cv2.imread(img_path)
     
     # OpenCV reads images in BGR format, we are simply converting and returning the image in RGB format
